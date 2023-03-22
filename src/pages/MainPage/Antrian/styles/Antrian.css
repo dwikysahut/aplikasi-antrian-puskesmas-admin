@@ -1,0 +1,29 @@
+.main-content{
+
+}
+
+.filter-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin:32px 0 0 0;
+
+}
+.item-wrapper{
+        gap: 8px;
+        flex: 2;
+        margin: 0 8px;
+        flex-direction: column; 
+        display: flex;
+        justify-content: space-between;
+    
+}
+
+.btn-action{
+    width: 100px;
+    height: 40px;
+    
+    font-size: 0.7rem;
+    margin: 10px 0;
+}

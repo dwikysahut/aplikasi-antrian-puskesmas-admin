@@ -1,0 +1,13 @@
+.form-decline{
+    /* position: relative; */
+    top: 100%;
+    z-index: 5;
+    /* display: none; */
+    max-width: 100%;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.1rem;
+    font-size: .875rem;
+    color: #fff;
+    background-color: rgba(220,53,69,.9);
+    border-radius: 0.375rem;
+}

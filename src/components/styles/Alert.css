@@ -1,0 +1,13 @@
+.alert-wrapper{
+    display: flex;   
+    align-items: center;
+    justify-content: center;
+   
+}
+.alert-container {
+ left:50% !important;
+ position: absolute;
+ top:20% !important;
+ transform:translate(-50%,-50%);
+
+}

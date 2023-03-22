@@ -1,0 +1,13 @@
+.wrapper-unauthorize {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.image-not-found {
+    width: 100%;
+
+}
