@@ -6,6 +6,7 @@ import { URL_BASE } from './CONSTANT';
 
 const options = (token) => ({
   headers: { Authorization: `Bearer ${token}` },
+  timeout: 3000,
 });
 
 // auth

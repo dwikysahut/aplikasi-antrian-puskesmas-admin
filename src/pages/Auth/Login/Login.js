@@ -60,9 +60,11 @@ function Login(props) {
   }, [props.isFulfilled, isLogin]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setAlert({ isOpen: false, text: '', color: '' });
-    }, 5000);
+    if (alert) {
+      setTimeout(() => {
+        setAlert({ isOpen: false, text: '', color: '' });
+      }, 5000);
+    }
   }, [alert]);
 
   const onChangeHandler = (e) => {

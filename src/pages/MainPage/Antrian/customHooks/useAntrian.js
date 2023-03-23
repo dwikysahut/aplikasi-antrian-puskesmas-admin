@@ -392,6 +392,9 @@ const useAntrian = () => {
               console.log(formField);
             }
           }
+          if (response.status === 204) {
+            showAlert('danger', 'Update Status gagal, poli dalam keadaan penuh', setAlertValue);
+          }
         } catch (error) {
           errorFetch(error, navigate, setAlertValue, logout, authRefreshToken);
         }
@@ -412,6 +415,9 @@ const useAntrian = () => {
             // onClickEditHandler({ ...formField });
             console.log(formField);
           }
+        }
+        if (response.status === 204) {
+          showAlert('danger', 'Update Status gagal, poli dalam keadaan penuh', setAlertValue);
         }
       } catch (error) {
         errorFetch(error, navigate, setAlertValue, logout, authRefreshToken);
