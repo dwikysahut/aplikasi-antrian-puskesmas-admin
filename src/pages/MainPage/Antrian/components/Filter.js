@@ -62,7 +62,7 @@ function Filter({
         <Button onClick={onResetHandler} className="btn-warning" disabled={value.id_praktek == '' || value.tanggal_periksa == ''}>
           Reset
         </Button>
-        <Button onClick={onSubmitFilter} disabled={value.id_praktek == '' || value.tanggal_periksa == ''}>
+        <Button onClick={onSubmitFilter} disabled={value.id_praktek == '' && value.tanggal_periksa == ''}>
           Submit
         </Button>
 

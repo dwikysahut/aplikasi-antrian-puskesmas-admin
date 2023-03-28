@@ -6,7 +6,7 @@ function CustomAlert({
   color, text, onDismiss, isOpen,
 }) {
   return (
-    <div className="alert-container" style={isOpen ? { zIndex: 10000000 } : {}}>
+    <div className="alert-container" style={isOpen ? { zIndex: 10000000, position: 'fixed' } : {}}>
 
       <UncontrolledAlert className="alert-wrapper" color={color} isOpen={isOpen} toggle={onDismiss}>
         {text}

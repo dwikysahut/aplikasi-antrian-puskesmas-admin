@@ -27,6 +27,7 @@ import CustomAlert from '../../../components/Alert';
 import { datatableStyle } from '../../../utils/customStyles';
 import Filter from './components/Filter';
 import ButtonColumn from './components/ButtonColumn';
+import TabComponent from './components/TabComponent';
 
 function Antrian() {
   const navigate = useNavigate();
@@ -72,6 +73,9 @@ function Antrian() {
     onCloseButtonModal,
     onUpdateStatusAntrianHandler,
     onUpdateStatusHadirHandler,
+    tabValue,
+    onClickTabHandler,
+    panggilHandler,
   } = useAntrian();
   // const renderButtonProccesAntrian = (row) => {
   //   if (row.status_antrian == 1) {
@@ -308,6 +312,7 @@ function Antrian() {
       dataPraktek={dataPraktek}
       dataPasien={dataPasien}
       dataRak={dataRak}
+      panggilHandler={panggilHandler}
       checkNik={checkNik}
       dataKartuKeluarga={dataKartuKeluarga}
       onClose={onCloseFormModal}
@@ -330,6 +335,7 @@ function Antrian() {
       onClickEditHandler={onClickEditHandler}
       setIsShow={setIsShowButtonModal}
       data={formField}
+      panggilHandler={panggilHandler}
       onToggleHandler={onCloseButtonModal}
       onUpdateStatusAntrianHandler={onUpdateStatusAntrianHandler}
       onUpdateStatusHadirHandler={onUpdateStatusHadirHandler}
@@ -348,32 +354,45 @@ function Antrian() {
       />
 
       <Filter dataPraktek={dataPraktek} value={stateFilter} onResetHandler={onFilterResetHandler} onChangeHandler={onFilterChangeHandler} onSubmitFilter={onFilterSubmitHandler} />
-      <Button onClick={onClickTambahHandler} size="sm" style={{ marginTop: '20px', backgroundColor: 'darkslategray' }}>Tambah</Button>
 
-      <DataTable
-        columns={columns}
-        data={stateFilter.tanggal_periksa !== '' ? dataFiltered : dataFiltered.sort((a, b) => a.status_antrian - b.status_antrian)}
-        subHeader
-        subHeaderComponent={subHeaderComponent}
-        pagination
-        customStyles={datatableStyle}
-        paginationResetDefaultPage={resetPaginationToggle}
-        progressPending={isLoading}
+      <TabComponent onClickHandler={onClickTabHandler} tabValue={tabValue} />
 
-      />
-      <h4 style={{ fontSize: '0.9rem', marginTop: '16px' }}>
-        Riwayat Antrian
-      </h4>
-      <div>
-        <DataTable
-          columns={columns}
-          data={dataAntrian.filter((item) => item.status_antrian > 5)}
-          pagination
-          customStyles={datatableStyle}
-          paginationResetDefaultPage={resetPaginationToggle}
-          progressPending={isLoading}
-        />
-      </div>
+      {tabValue == 'List'
+        ? (
+          <div>
+            <Button onClick={onClickTambahHandler} size="sm" style={{ marginTop: '20px', backgroundColor: 'darkslategray' }}>Tambah</Button>
+
+            <DataTable
+              columns={columns}
+              // data={stateFilter.tanggal_periksa !== '' ? dataFiltered : dataFiltered.sort((a, b) => a.status_antrian - b.status_antrian)}
+              data={dataFiltered}
+              subHeader
+              subHeaderComponent={subHeaderComponent}
+              pagination
+              customStyles={datatableStyle}
+              paginationResetDefaultPage={resetPaginationToggle}
+              progressPending={isLoading}
+            />
+          </div>
+
+        )
+        : (
+          <div>
+            <h4 style={{ fontSize: '0.9rem', marginTop: '16px' }}>
+              Riwayat Antrian
+            </h4>
+
+            <DataTable
+              columns={columns}
+              data={dataAntrian.filter((item) => item.status_antrian > 5)}
+              pagination
+              customStyles={datatableStyle}
+              paginationResetDefaultPage={resetPaginationToggle}
+              progressPending={isLoading}
+            />
+          </div>
+        )}
+
       {modalComponent}
       {detailModalComponent}
       {buttonModalComponent}

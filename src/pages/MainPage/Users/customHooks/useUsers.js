@@ -43,6 +43,7 @@ const useUsers = () => {
 
   const [isShowFormModal, setIsShowFormModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [tabValue, setTabValue] = useState('List');
   const [alertValue, setAlertValue] = useState({ color: '', text: '', isOpen: false });
 
   const [isShowDetailModal, setIsShowDetailModal] = useState(false);
@@ -60,11 +61,7 @@ const useUsers = () => {
       .test('len', 'User ID/NIK terdiri dari 16 angka', (val) => val?.toString().length === 16)
       .required('User ID harus diisi')
       .typeError('No. Rekam Medis terdiri dari angka'),
-    no_kk: yup.number()
-      .test('len', 'No. KK terdiri dari 16 angka', (val) => val?.toString().length === 16)
-      .required('No. Kartu Keluarga harus diisi'),
-    kepala_keluarga: yup.string()
-      .required('Nama Kepala Keluarga harus diisi'),
+
     nama_user: yup.string()
       .required('Nama User harus diisi'),
     no_telepon: yup.number()
@@ -72,6 +69,18 @@ const useUsers = () => {
       .required('No. Kartu Keluarga harus diisi'),
     role: yup.string()
       .required('Role harus dipilih'),
+    no_kk: yup.number()
+      .when('role', {
+        is: (role) => role && parseInt(role, 10) == 3,
+        then: yup.number().test('len', 'No. KK terdiri dari 16 angka', (val) => val?.toString().length === 16)
+          .required('No. Kartu Keluarga harus diisi'),
+      }),
+
+    kepala_keluarga: yup.string().when('role', {
+      is: (role) => role && parseInt(role, 10) == 3,
+      then: yup.string().required('Nama Kepala Keluarga harus diisi'),
+    }),
+
     email: yup.string()
       .required('Email harus diisi'),
     verif_email: yup.string()
@@ -261,6 +270,9 @@ const useUsers = () => {
     }
   };
 
+  const onClickTabHandler = (value) => {
+    setTabValue(value);
+  };
   const dataFiltered = dataUsers
     .filter(
       (item) => {
@@ -308,6 +320,8 @@ const useUsers = () => {
     alertValue,
     setAlertValue,
     onClickVerifikasiHandler,
+    tabValue,
+    onClickTabHandler,
 
   };
 };

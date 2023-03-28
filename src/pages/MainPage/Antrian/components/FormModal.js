@@ -12,6 +12,7 @@ import FormInput from './FormInput';
 function FormModal({
   isShow, setIsShow, onClose, onSubmitTambahHandler, onSubmitEditHandler,
   form, formValidationSchema, isEdit, dataPraktek, dataPasien, dataKartuKeluarga, dataRak, checkNik,
+  panggilHandler,
 }) {
   return (
 
@@ -64,7 +65,25 @@ function FormModal({
               onSubmitHandler={handleSubmit}
             />
           </ModalBody>
+
           <ModalFooter>
+            {' '}
+            {isEdit
+
+              ? (
+                <Button
+                  color="dark"
+                  className="w-20 mt-3"
+                  onClick={() => {
+                    console.log(values);
+                    panggilHandler('Loket', form);
+                  }}
+                >
+                  Panggil
+                </Button>
+              )
+              : <></>}
+
             <Button
               color="success"
               className="w-20 mt-3"
@@ -73,6 +92,7 @@ function FormModal({
               Submit
 
             </Button>
+
             <Button
               outline
               className="w-20 mt-3"

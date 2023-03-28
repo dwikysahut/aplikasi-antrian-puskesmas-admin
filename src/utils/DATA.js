@@ -665,6 +665,12 @@ const poliSelect = [
   { nama: 'Poli ISPA' },
 ];
 
+const speechText = {
+  opening: 'Nomor antrian ',
+  verb: ' Silahkan menuju ',
+  loket: ' Loket pendaftaran ',
+  poli: ' Poli tujuan anda',
+};
 const prioritas = [
   { id: 0, nama: 'Pasien Biasa' },
   { id: 1, nama: 'Darurat/Butuh Penanganan Cepat' },
@@ -688,5 +694,5 @@ const statusKehadiran = [
 export {
   kelurahan, kecamatan, pekerjaan,
   pendidikanTerakhir, statusAnggotaKel, hari, poliSelect, statusAntrian,
-  prioritas, statusKehadiran,
+  prioritas, statusKehadiran, speechText,
 };

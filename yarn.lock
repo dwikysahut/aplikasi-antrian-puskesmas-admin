@@ -8965,6 +8965,11 @@ react-select@^5.7.0:
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"
 
+react-speech-kit@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/react-speech-kit/-/react-speech-kit-3.0.1.tgz"
+  integrity sha512-MXNOciISanhmnxpHJkBOev3M3NPDpW1T7nTc/eGw5pO9cXpoUccRxZkmr/IlpTPbPEneDNeTmbwri/YweyctZg==
+
 react-transition-group@^4.3.0, react-transition-group@^4.4.2:
   version "4.4.5"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"

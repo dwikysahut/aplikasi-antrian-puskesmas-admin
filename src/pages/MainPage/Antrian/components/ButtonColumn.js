@@ -6,6 +6,7 @@ import {
 function ButtonColumn({
   isShow, onToggleHandler, data, onClickEditHandler, setIsShow,
   onUpdateStatusHadirHandler, onUpdateStatusAntrianHandler,
+  panggilHandler,
 }) {
   console.log(data);
   const renderButtonProccesAntrian = (row) => {
@@ -29,18 +30,32 @@ function ButtonColumn({
     }
     if (row.status_antrian == 2) {
       return (
-        <Button
-          className="btn-action w-100"
-          color="warning"
-          size="sm"
-          onClick={() => {
-            setIsShow(!isShow);
-            onClickEditHandler(row);
-          }}
-          id={row.ID}
-        >
-          Proses
-        </Button>
+        <>
+          <Button
+            className="btn-action w-100"
+            color="warning"
+            size="sm"
+            onClick={() => {
+              setIsShow(!isShow);
+              onClickEditHandler(row);
+            }}
+            id={row.ID}
+          >
+            Proses
+          </Button>
+          <Button
+            className="btn-action w-100"
+            color="dark"
+
+            size="sm"
+            onClick={() => {
+            // eslint-disable-next-line react/prop-types
+              panggilHandler('loket', row);
+            }}
+          >
+            Panggil
+          </Button>
+        </>
       );
     }
     if (row.status_antrian == 3) {
@@ -59,7 +74,7 @@ function ButtonColumn({
               Konfirmasi pembayaran
 
             </Button>
-            <Button
+            {/* <Button
               className="btn-action w-100"
               color="danger"
               outline
@@ -71,30 +86,30 @@ function ButtonColumn({
             >
               Lewati
 
-            </Button>
+            </Button> */}
           </>
         );
       }
-      return (
-        <Button
-          className="btn-action w-100"
-          color="danger"
-          size="sm"
-          onClick={() => {
-            onUpdateStatusAntrianHandler(true, row.id_antrian, 7);
-          }}
-          id={row.ID}
-        >
-          Lewati
-        </Button>
+      return (<></>
+      // <Button
+      //   className="btn-action w-100"
+      //   color="danger"
+      //   size="sm"
+      //   onClick={() => {
+      //     onUpdateStatusAntrianHandler(true, row.id_antrian, 7);
+      //   }}
+      //   id={row.ID}
+      // >
+      //   Lewati
+      // </Button>
       );
     }
     if (row.status_antrian == 4 && row.status_hadir == 1) {
       return (
         <>
-          <Button className="btn-action w-100" color="dark" size="sm" onClick={() => { onClickEditHandler(row); }} id={row.ID}>Panggil</Button>
+          <Button className="btn-action w-100" color="dark" size="sm" onClick={() => { panggilHandler('poli', row); }} id={row.ID}>Panggil</Button>
           <Button className="btn-action w-100" color="warning" size="sm" onClick={() => { onUpdateStatusAntrianHandler(true, row.id_antrian, row.status_antrian + 1); }} id={row.ID}>Update Status Antrian</Button>
-          <Button
+          {/* <Button
             className="btn-action w-100"
             color="danger"
             outline
@@ -106,7 +121,7 @@ function ButtonColumn({
           >
             Lewati
 
-          </Button>
+          </Button> */}
         </>
       );
     }

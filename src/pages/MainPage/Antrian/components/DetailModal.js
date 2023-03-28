@@ -23,19 +23,19 @@ function DetailModal({
         <DetailText data={data} />
       </ModalBody>
       <ModalFooter>
-        <Button
+        {/* <Button
           color="success"
           className="w-20 mt-3"
           onClick={onClickEditHandler}
         >
           Edit
-        </Button>
+        </Button> */}
         <Button
           outline
           className="w-20 mt-3"
           onClick={onToggleHandler}
         >
-          Cancel
+          Tutup
 
         </Button>
       </ModalFooter>

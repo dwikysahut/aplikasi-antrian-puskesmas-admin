@@ -21,6 +21,7 @@ import SpinnerComponents from '../../../components/SpinnerComponents';
 import CustomAlert from '../../../components/Alert';
 import DetailModal from './components/DetailModalUser';
 import { datatableStyle } from '../../../utils/customStyles';
+import TabComponent from './components/TabComponent';
 
 function Users() {
   const {
@@ -55,6 +56,8 @@ function Users() {
     isLoading,
     alertValue,
     setAlertValue,
+    onClickTabHandler,
+    tabValue,
 
     onClickVerifikasiHandler,
   } = useUsers();
@@ -266,42 +269,55 @@ function Users() {
         text={alertValue.text}
         onDismiss={() => setAlertValue({ isOpen: false, color: 'danger' })}
       />
-      <div>
-        <h4
-          className="mt-2"
-          style={{
-            fontSize: '0.9rem',
-            color: 'black',
-            padding: '8px',
-            backgroundColor: 'currentcolor',
-            borderRadius: '5px',
-          }}
-        >
-          <bold style={{ color: 'white' }}>Akun Perlu Diverifikasi</bold>
-        </h4>
-        <DataTable
-          columns={columnsVerifikasi}
-          data={dataUsers.filter((item) => item.verif_akun == 0 && item.verif_email == 1)}
-          // subHeader
-          // subHeaderComponent={subHeaderComponent}
-          pagination
-          customStyles={datatableStyle}
-          paginationResetDefaultPage={resetPaginationToggle}
-          progressPending={isLoading}
-        />
-      </div>
-      <Button onClick={onClickTambahHandler} size="sm" style={{ marginTop: '20px', backgroundColor: 'darkslategray' }}>Tambah</Button>
+      <TabComponent tabValue={tabValue} onClickHandler={onClickTabHandler} />
+      {tabValue == 'Verifikasi'
+        ? (
+          <div>
+            <h4
+              className="mt-2"
+              style={{
+                fontSize: '0.9rem',
+                color: 'black',
+                padding: '8px',
+                backgroundColor: 'currentcolor',
+                borderRadius: '5px',
+              }}
+            >
 
-      <DataTable
-        columns={columns}
-        data={dataFiltered}
-        subHeader
-        subHeaderComponent={subHeaderComponent}
-        pagination
-        customStyles={datatableStyle}
-        paginationResetDefaultPage={resetPaginationToggle}
-        progressPending={isLoading}
-      />
+              <bold style={{ color: 'white' }}>Akun Perlu Diverifikasi</bold>
+            </h4>
+
+            <DataTable
+              columns={columnsVerifikasi}
+              data={dataUsers.filter((item) => item.verif_akun == 0 && item.verif_email == 1)}
+             // subHeader
+             // subHeaderComponent={subHeaderComponent}
+              pagination
+              customStyles={datatableStyle}
+              paginationResetDefaultPage={resetPaginationToggle}
+              progressPending={isLoading}
+            />
+          </div>
+        )
+        : (
+          <div>
+            <Button onClick={onClickTambahHandler} size="sm" style={{ marginTop: '20px', backgroundColor: 'darkslategray' }}>Tambah</Button>
+
+            <DataTable
+              columns={columns}
+              data={dataFiltered}
+              subHeader
+              subHeaderComponent={subHeaderComponent}
+              pagination
+              customStyles={datatableStyle}
+              paginationResetDefaultPage={resetPaginationToggle}
+              progressPending={isLoading}
+            />
+            {' '}
+
+          </div>
+        )}
+
       {modalComponent}
       {detailModalComponent}
 

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
+import { useSpeechSynthesis } from 'react-speech-kit';
 import {
   confirmationMessage, errorType, successfullyMessage, URL_BASE,
 } from '../../../../utils/CONSTANT';
@@ -21,6 +22,7 @@ import {
   deleteAntrian, getAllAntrian, postAntrian, putAntrian, getAllPraktek, getAllUsers, getAllPasien, getAllPoli, getAllAntrianByFilter, getPasienById, getAllKartuKeluarga, getAllRak, getPasienAntrianById, putStatusAntrian,
 } from '../../../../utils/http';
 import { logoutUserActionCreator, refreshTokenActionCreator } from '../../../../redux/actions/userAction';
+import { speechText } from '../../../../utils/DATA';
 
 const initialState = {
 
@@ -36,6 +38,7 @@ const useAntrian = () => {
   const [dataPasien, setDataPasien] = useState([]);
   const [dataRak, setDataRak] = useState([]);
   const [dataDetailRM, setDataRM] = useState([]);
+  const [tabValue, setTabValue] = useState('List');
 
   const [stateFilter, setStateFilter] = useState({ tanggal_periksa: '', id_praktek: '' });
 
@@ -54,6 +57,8 @@ const useAntrian = () => {
   const [filterText, setFilterText] = React.useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
+
+  const { speak, voices, rate } = useSpeechSynthesis();
 
   const formValidationSchema = yup.object().shape({
     nik: yup.string()
@@ -287,7 +292,8 @@ const useAntrian = () => {
     // fetchDataKartuKeluarga();
     setIsFirstRender(false);
     const socket = io(URL_BASE);
-    socket.on('server-addAntrian', () => {
+    socket.on('server-addAntrian', (result) => {
+      console.log('fetch baru');
       fetchData();
       fetchDataPraktek();
     });
@@ -566,7 +572,24 @@ const useAntrian = () => {
 
     setIsShowFormModal(!isShowFormModal);
   };
+  const onClickTabHandler = (value) => {
+    setTabValue(value);
+  };
 
+  const panggilHandler = (type, data) => {
+    let sentences = `${speechText.opening} ${data.nomor_antrian.split('-')[0]}, ${data.nomor_antrian.split('-')[1]}. ${speechText.verb}`;
+    if (type == 'poli') {
+      sentences += speechText.poli;
+    } else {
+      sentences += speechText.loket;
+    }
+    speak({
+      text: sentences,
+      voice: voices[56],
+      rate: 0.8,
+      pitch: 1.1,
+    });
+  };
   const dataFiltered = dataAntrian?.filter(
     (item) => {
       if (item.id_antrian && item.id_antrian.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
@@ -631,6 +654,9 @@ const useAntrian = () => {
     checkNik,
     onUpdateStatusAntrianHandler,
     onUpdateStatusHadirHandler,
+    onClickTabHandler,
+    tabValue,
+    panggilHandler,
   };
 };
 

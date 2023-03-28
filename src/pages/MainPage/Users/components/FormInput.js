@@ -36,6 +36,33 @@ function FormInput({
 
     <Form>
       <FormGroup>
+        <Label for="role">Role</Label>
+        <Input
+          id="role"
+          name="role"
+          placeholder="Role"
+          type="select"
+          value={values.role}
+          onChange={onChangeHandler('role')}
+          invalid={error.role !== undefined}
+        >
+          <option value="" hidden>
+            Belum Dipilih
+          </option>
+          <option value="1">
+            Administrator
+          </option>
+          <option value="2">
+            Petugas
+          </option>
+          <option value="3">
+            Pasien
+          </option>
+
+        </Input>
+        { error.role && (<FormDecline text={error.role} />)}
+      </FormGroup>
+      <FormGroup>
         <Label for="user_id">User ID</Label>
         <Input
           id="user_id"
@@ -54,40 +81,47 @@ function FormInput({
         </span>
         { error.user_id && (<FormDecline text={error.user_id} />)}
       </FormGroup>
-      <FormGroup className="h-100">
-        <Label for="no kk">No. Kartu keluarga</Label>
-        <CreatableSelect
-          customStyles={customStyles}
-          data={options}
-          onChange={(e) => {
-            setFieldValue('no_kk', e.value);
-            setFieldValue('kepala_keluarga', dataKartuKeluarga.filter((item) => item.no_kk === e.value)[0]?.kepala_keluarga === null || dataKartuKeluarga.filter((item) => item.no_kk === e.value)[0]?.kepala_keluarga === undefined
-              ? '' : dataKartuKeluarga.filter((item) => item.no_kk === e.value)[0].kepala_keluarga);
-          }}
-          name="no_kk"
-          value={values.no_kk}
-        />
-        <span style={{ fontSize: '10px' }}>
-          {values.no_kk?.toString().length > 0 ? values.no_kk?.toString().length : '0'}
-          {' '}
-          / 16
-        </span>
-        { error.no_kk && (<FormDecline text={error.no_kk} />)}
-      </FormGroup>
-      <FormGroup>
-        <Label for="kepala_keluarga">Kepala Keluarga</Label>
-        <Input
-          id="kepala_keluarga"
-          name="kepala_keluarga"
-          placeholder="kepala_keluarga"
-          type="text"
+
+      {values.role && values.role > 2
+        ? (
+          <>
+            <FormGroup className="h-100">
+              <Label for="no kk">No. Kartu keluarga</Label>
+              <CreatableSelect
+                customStyles={customStyles}
+                data={options}
+                onChange={(e) => {
+                  setFieldValue('no_kk', e.value);
+                  setFieldValue('kepala_keluarga', dataKartuKeluarga.filter((item) => item.no_kk === e.value)[0]?.kepala_keluarga === null || dataKartuKeluarga.filter((item) => item.no_kk === e.value)[0]?.kepala_keluarga === undefined
+                    ? '' : dataKartuKeluarga.filter((item) => item.no_kk === e.value)[0].kepala_keluarga);
+                }}
+                name="no_kk"
+                value={values.no_kk}
+              />
+              <span style={{ fontSize: '10px' }}>
+                {values.no_kk?.toString().length > 0 ? values.no_kk?.toString().length : '0'}
+                {' '}
+                / 16
+              </span>
+              { error.no_kk && (<FormDecline text={error.no_kk} />)}
+            </FormGroup>
+            <FormGroup>
+              <Label for="kepala_keluarga">Kepala Keluarga</Label>
+              <Input
+                id="kepala_keluarga"
+                name="kepala_keluarga"
+                placeholder="kepala_keluarga"
+                type="text"
           // disabled={!!isEdit}
-          value={values.kepala_keluarga}
-          onChange={onChangeHandler('kepala_keluarga')}
-          invalid={error.kepala_keluarga !== undefined}
-        />
-        { error.kepala_keluarga && (<FormDecline text={error.kepala_keluarga} />)}
-      </FormGroup>
+                value={values.kepala_keluarga}
+                onChange={onChangeHandler('kepala_keluarga')}
+                invalid={error.kepala_keluarga !== undefined}
+              />
+              { error.kepala_keluarga && (<FormDecline text={error.kepala_keluarga} />)}
+            </FormGroup>
+          </>
+        ) : <></>}
+
       <FormGroup>
         <Label for="nama_user">Nama User</Label>
         <Input
@@ -168,33 +202,7 @@ function FormInput({
             { error.verif_akun && (<FormDecline text={error.verif_akun} />)}
           </FormGroup>
         ) : <></>}
-      <FormGroup>
-        <Label for="role">Role</Label>
-        <Input
-          id="role"
-          name="role"
-          placeholder="Role"
-          type="select"
-          value={values.role}
-          onChange={onChangeHandler('role')}
-          invalid={error.role !== undefined}
-        >
-          <option value="" hidden>
-            Belum Dipilih
-          </option>
-          <option value="1">
-            Administrator
-          </option>
-          <option value="2">
-            Petugas
-          </option>
-          <option value="3">
-            Pasien
-          </option>
 
-        </Input>
-        { error.role && (<FormDecline text={error.role} />)}
-      </FormGroup>
       <FormGroup>
         <Label for="no_telepon">Nomor Telepon</Label>
         <Input
