@@ -30,7 +30,7 @@ function FormInput({
   console.log(dataDokter);
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
 
       <FormGroup>
         <Label for="id_dokter">Dokter</Label>
@@ -55,7 +55,7 @@ function FormInput({
 
         { error.id_dokter && (<FormDecline text={error.id_dokter} />)}
       </FormGroup>
-      <FormGroup>
+      {/* <FormGroup>
         <Label for="hari_praktek">Hari Praktek</Label>
         <Input
           id="hari_praktek"
@@ -77,7 +77,7 @@ function FormInput({
         </Input>
 
         { error.hari_praktek && (<FormDecline text={error.hari_praktek} />)}
-      </FormGroup>
+      </FormGroup> */}
       <FormGroup>
         <Label for="status_operasional">Status Operasional</Label>
         <Input
@@ -106,7 +106,7 @@ function FormInput({
         { error.status_operasional && (<FormDecline text={error.status_operasional} />)}
       </FormGroup>
 
-      <FormGroup row>
+      {/* <FormGroup row>
         <Col sm={6}>
           <Label for="waktu_mulai_praktek">Waktu Mulai Praktek</Label>
           <Input
@@ -135,7 +135,7 @@ function FormInput({
           />
           { error.waktu_selesai_praktek && (<FormDecline text={error.waktu_selesai_praktek} />)}
         </Col>
-      </FormGroup>
+      </FormGroup> */}
 
     </Form>
 

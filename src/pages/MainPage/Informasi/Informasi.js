@@ -74,7 +74,7 @@ function Informasi() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      maxWidth: '80px',
 
     },
     {
@@ -83,21 +83,21 @@ function Informasi() {
       selector: (row) => row.id_informasi,
       sortable: true,
       omit: true,
-      minWidth: '200px',
+      minWidth: '100px',
     },
     {
       id: 'judul_informasi',
       name: 'Judul',
       selector: (row) => row.judul_informasi,
       sortable: true,
-      minWidth: '200px',
+      width: '200px',
     },
     {
       id: 'isi_informasi',
       name: 'Isi',
       selector: (row) => row.isi_informasi,
       sortable: true,
-      minWidth: '200px',
+      width: '200px',
     },
     {
       id: 'gambar',
@@ -105,7 +105,7 @@ function Informasi() {
       selector: (row) => renderImage(row),
       sortable: true,
 
-      minWidth: '200px',
+      minWidth: '150px',
     },
 
     {

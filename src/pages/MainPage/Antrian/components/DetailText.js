@@ -7,6 +7,7 @@ import '../../styles/General.css';
 import {
   Button, Modal, ModalHeader, ModalBody, ModalFooter,
 } from 'reactstrap';
+import { statusAntrian, statusKehadiran } from '../../../../utils/DATA';
 
 function DetailText({
   isShow, onToggleHandler, onClickEditHandler, data,
@@ -16,14 +17,25 @@ function DetailText({
     <div className="inner-wrapper" key={key}>
 
       <p className="inner-wrapper__key-text">
-        {key.split('_').map((item) => item[0].toUpperCase() + item.slice(1).toLowerCase()).join(' ')}
+        {/* {key.split('_').map((item) => item[0].toUpperCase() + item.slice(1).toLowerCase()).join(' ')} */}
+        {key.split('_').map((item) => item.toUpperCase()).join(' ')}
 
       </p>
 
       <p className="inner-wrapper__colon">:</p>
 
       <p className="inner-wrapper__value">
-        {key === 'status_operasional' ? (value == 1 ? 'Buka' : 'Tutup') : value}
+        {key === 'status_operasional' ? (value == 1 ? 'Buka' : 'Tutup')
+          : key.includes('prioritas') ? (value == 1 ? 'Prioritas' : 'Biasa')
+            : key.includes('waktu') ? value || '-'
+              : key.includes('booking') ? (value == 1 ? 'Ya' : 'Tidak')
+                : key.includes('status_hadir') ? statusKehadiran[value]
+                  : key.includes('status_antrian') ? statusAntrian[value - 1]
+                    : key.includes('role') ? (value > 1 ? (value == 2 ? 'Petugas' : 'Pasien') : 'Admin')
+                      : key.includes('bpjs') ? (value > 0 ? 'Ya' : 'Tidak')
+                        : key.includes('daftar_dengan_bpjs') ? (value == 1 ? 'Ya' : 'Tidak') : value}
+
+        {/* {key === 'prioritas' ? (value == 1 ? 'Prioritas' : 'Biasa') : value} */}
         {' '}
         {key.includes('waktu_pelayanan') && 'Menit'}
       </p>
@@ -33,7 +45,7 @@ function DetailText({
   const renderData = useMemo(() => {
     const componentArr = [];
     for (const keys in data) {
-      if (keys == 'id_poli') {
+      if ((keys.includes('id') && keys !== 'id_antrian')) {
         continue;
       }
       componentArr.push(renderText(keys, data[keys]));

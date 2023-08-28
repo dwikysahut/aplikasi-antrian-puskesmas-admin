@@ -46,11 +46,6 @@ const useRak = () => {
   const formValidationSchema = yup.object().shape({
     number_rak: yup.string().required('Kode Rak harus diisi'),
     alphabet_rak: yup.string().required('Kode Rak harus diisi'),
-    // no_rm: yup.number()
-
-    //   .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
-    //   .required('No telepon harus diisi')
-    //   .typeError('Nomor Telepon terdiri dari angka'),
 
   });
   const logout = async (refreshToken = stateUser.data.refreshToken) => {

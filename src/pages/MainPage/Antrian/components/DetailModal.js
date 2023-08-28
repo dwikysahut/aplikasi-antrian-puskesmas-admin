@@ -16,6 +16,7 @@ function DetailModal({
 
     <Modal
       isOpen={isShow}
+      className="modal-lg"
       toggle={onToggleHandler}
     >
       <ModalHeader toggle={onToggleHandler}>{title}</ModalHeader>

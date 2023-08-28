@@ -88,7 +88,7 @@ function RekamMedis() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      minWidth: '80px',
     },
     {
       id: 'no_rm',
@@ -111,7 +111,7 @@ function RekamMedis() {
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
 
-      minWidth: '200px',
+      minWidth: '180px',
     },
     {
       id: 'updated_at',
@@ -119,7 +119,7 @@ function RekamMedis() {
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
 
-      minWidth: '200px',
+      minWidth: '180px',
     },
 
     {

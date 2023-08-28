@@ -74,7 +74,7 @@ function Users() {
       <Button color="secondary" size="sm" onClick={() => { onClickDetailShowHandler(row); }} id={row.ID}>Info</Button>
 
       <Button color="success" size="sm" onClick={() => { onClickVerifikasiHandler(row, 1); }} id={row.ID}>Setujui</Button>
-      <Button color="danger" size="sm" onClick={() => { onClickVerifikasiHandler(row, 0); }} id={row.ID}>Tolak</Button>
+      <Button color="danger" size="sm" onClick={() => { onClickVerifikasiHandler(row, 2); }} id={row.ID}>Tolak</Button>
     </div>
   );
 
@@ -83,11 +83,11 @@ function Users() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      minWidth: '80px',
     },
     {
       id: 'user_id',
-      name: 'User ID',
+      name: 'User ID / NIK',
       selector: (row) => row.user_id,
       sortable: true,
       minWidth: '200px',
@@ -111,7 +111,7 @@ function Users() {
       name: 'Jenis kelamin',
       selector: (row) => row.jenis_kelamin,
       sortable: true,
-      minWidth: '200px',
+      minWidth: '150px',
     },
     {
       id: 'tanggal_lahir',
@@ -125,6 +125,8 @@ function Users() {
     {
       id: 'created_at',
       name: 'Created At',
+      omit: true,
+
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
 
@@ -135,6 +137,7 @@ function Users() {
       name: 'Updated At',
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
+      omit: true,
 
       minWidth: '200px',
     },
@@ -153,14 +156,14 @@ function Users() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      minWidth: '80px',
     },
     {
       id: 'user_id',
-      name: 'User ID',
+      name: 'User ID / NIK',
       selector: (row) => row.user_id,
       sortable: true,
-      minWidth: '200px',
+      minWidth: '170px',
     },
     {
       id: 'no_kk',
@@ -197,7 +200,7 @@ function Users() {
       name: 'Created At',
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -205,7 +208,7 @@ function Users() {
       name: 'Updated At',
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
 

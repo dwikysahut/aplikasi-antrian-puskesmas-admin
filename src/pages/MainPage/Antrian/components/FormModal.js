@@ -31,6 +31,7 @@ function FormModal({
         values,
         errors,
         touched,
+        resetForm,
         isValid,
         isSubmitting,
       }) => (
@@ -60,6 +61,7 @@ function FormModal({
               values={values}
               isEdit={isEdit}
               isValid={isValid}
+              handleReset={resetForm}
               setFieldValue={setFieldValue}
               onChangeHandler={handleChange}
               onSubmitHandler={handleSubmit}
@@ -76,7 +78,7 @@ function FormModal({
                   className="w-20 mt-3"
                   onClick={() => {
                     console.log(values);
-                    panggilHandler('Loket', form);
+                    panggilHandler('loket', form);
                   }}
                 >
                   Panggil

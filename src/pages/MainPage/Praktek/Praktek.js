@@ -16,11 +16,11 @@ import SearchBar from '../components/SearchBar';
 // import Select from 'react-select'
 import FormModal from './components/FormModal';
 import DetailModal from './components/DetailModal';
-
 import usePraktek from './customHooks/usePraktek';
 import SpinnerComponents from '../../../components/SpinnerComponents';
 import CustomAlert from '../../../components/Alert';
 import { datatableStyle } from '../../../utils/customStyles';
+import QRModal from './components/ModalQRCode';
 
 function Praktek() {
   const navigate = useNavigate();
@@ -55,6 +55,9 @@ function Praktek() {
     isLoading,
     alertValue,
     setAlertValue,
+    onClickQRModalHandler,
+    isShowQRModal,
+    setIsShowQRModal,
   } = usePraktek();
   const renderActionButton = (row) => (
     <div className="d-flex gap-1">
@@ -96,13 +99,14 @@ function Praktek() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      minWidth: '80px',
     },
     {
       id: 'id_praktek',
       name: 'ID Praktek',
       selector: (row) => row.id_praktek,
       sortable: true,
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -117,13 +121,21 @@ function Praktek() {
       name: 'Status Operasional',
       cell: (row) => renderStatus(row),
       sortable: true,
-      minWidth: '200px',
+      minWidth: '180px',
     },
     {
       id: 'total_dokter',
       name: 'Dokter Aktif / Total ',
       selector: (row) => `${row.dokter_tersedia} / ${row.total_dokter} Orang`,
-      minWidth: '200px',
+
+      minWidth: '160px',
+    },
+    {
+      id: 'jumlah_pelayanan',
+      name: 'Jumlah Pelayanan',
+      selector: (row) => `${row.jumlah_pelayanan} `,
+      omit: true,
+      minWidth: '110px',
     },
 
     {
@@ -131,7 +143,7 @@ function Praktek() {
       name: 'Created At',
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -139,7 +151,7 @@ function Praktek() {
       name: 'Updated At',
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
 
@@ -186,12 +198,23 @@ function Praktek() {
     <DetailModal
       isShow={isShowDetailModal}
       onClickEditHandler={onClickShowFormHandler}
+      onGenerateQRCode={onClickQRModalHandler}
       setIsShow={setIsShowDetailModal}
       data={formField}
       title="Informasi Data Praktek"
       onToggleHandler={onCloseDetailModal}
     />
   ), [isShowDetailModal]);
+  const qrModalComponent = useMemo(() => (
+    <QRModal
+      isShow={isShowQRModal}
+      onPrintClickHandler={onClickShowFormHandler}
+      setIsShow={setIsShowQRModal}
+      dataPraktek={formField}
+      title="QR Code"
+      onToggleHandler={() => setIsShowQRModal(!isShowQRModal)}
+    />
+  ), [isShowQRModal, formField]);
   return (
     <div className="main-content">
       <h3>
@@ -218,7 +241,7 @@ function Praktek() {
       />
       {modalComponent}
       {detailModalComponent}
-
+      {qrModalComponent}
     </div>
   );
 }

@@ -38,7 +38,7 @@ function FormInput({
   console.log(values);
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
 
       <FormGroup>
         <Label for="no_rm">No. RM</Label>

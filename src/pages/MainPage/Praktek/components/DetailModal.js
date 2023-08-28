@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import DetailText from './DetailText';
 
 function DetailModal({
-  isShow, onToggleHandler, onClickEditHandler,
+  isShow, onToggleHandler, onClickEditHandler, onGenerateQRCode,
   data, title,
 }) {
   return (
@@ -25,6 +25,14 @@ function DetailModal({
         </ModalBody>
         <ModalFooter>
           <Button
+            outline
+            className="w-20 mt-3"
+            onClick={onGenerateQRCode}
+          >
+            Generate QR Code
+
+          </Button>
+          <Button
             color="success"
             className="w-20 mt-3"
             onClick={onClickEditHandler}
@@ -39,6 +47,7 @@ function DetailModal({
             Cancel
 
           </Button>
+
         </ModalFooter>
 
       </Modal>

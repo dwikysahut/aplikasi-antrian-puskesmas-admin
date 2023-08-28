@@ -33,7 +33,7 @@ function FormInput({
   console.log(options);
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup>
         <Label for="no. rm">No. Rekam Medis</Label>
         <Input

@@ -97,7 +97,7 @@ function FormInput({
 }) {
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
 
       {/* <FormGroup>
         <Label for="Kode Rak">Kode Rak</Label>
@@ -113,7 +113,7 @@ function FormInput({
         { error.kode_rak && (<FormDecline text={error.kode_rak} />)}
       </FormGroup> */}
       <FormGroup>
-        <Label for="kode rak">Kode Rak</Label>
+        <Label for="kode rak">Kode Rak (Alfabet)</Label>
         <Input
           id="alphabet_rak"
           name="alphabet_rak"
@@ -136,7 +136,7 @@ function FormInput({
         { error.alphabet_rak && (<FormDecline text={error.alphabet_rak} />)}
       </FormGroup>
       <FormGroup>
-        <Label for="kode rak">Kode Rak</Label>
+        <Label for="kode rak">Kode Rak (Nomor)</Label>
         <Input
           id="number_rak"
           name="number_rak"

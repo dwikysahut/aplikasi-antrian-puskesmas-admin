@@ -66,7 +66,7 @@ function DetailRekamMedis() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      minWidth: '80px',
     },
     {
       id: 'id_detail_rekam_medis',
@@ -102,7 +102,7 @@ function DetailRekamMedis() {
       name: 'Kode Rak',
       selector: (row) => row.kode_rak,
       sortable: true,
-      minWidth: '200px',
+      minWidth: '100px',
     },
 
     {
@@ -110,7 +110,7 @@ function DetailRekamMedis() {
       name: 'Created At',
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -118,7 +118,7 @@ function DetailRekamMedis() {
       name: 'Updated At',
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
 

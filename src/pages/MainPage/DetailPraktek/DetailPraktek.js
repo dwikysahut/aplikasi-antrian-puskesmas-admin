@@ -98,6 +98,7 @@ function DetailPraktek() {
       name: 'ID Praktek',
       selector: (row) => row.id_praktek,
       sortable: true,
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -115,20 +116,20 @@ function DetailPraktek() {
       sortable: true,
       minWidth: '200px',
     },
-    {
-      id: 'hari_praktek',
-      name: ' Hari Praktek',
-      selector: (row) => row.hari_praktek,
-      sortable: true,
-      minWidth: '200px',
-    },
-    {
-      id: 'jam_praktek',
-      name: 'Jam Praktek',
-      selector: (row) => row.jam_praktek,
-      sortable: true,
-      minWidth: '200px',
-    },
+    // {
+    //   id: 'hari_praktek',
+    //   name: ' Hari Praktek',
+    //   selector: (row) => row.hari_praktek,
+    //   sortable: true,
+    //   minWidth: '200px',
+    // },
+    // {
+    //   id: 'jam_praktek',
+    //   name: 'Jam Praktek',
+    //   selector: (row) => row.jam_praktek,
+    //   sortable: true,
+    //   minWidth: '200px',
+    // },
     {
       id: 'status_operasional',
       name: 'Status Operasional',
@@ -143,7 +144,7 @@ function DetailPraktek() {
       name: 'Created At',
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -151,7 +152,7 @@ function DetailPraktek() {
       name: 'Updated At',
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
 

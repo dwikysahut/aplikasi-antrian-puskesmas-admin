@@ -113,7 +113,8 @@ function DetailAntrian() {
       name: 'Nomor Antrian',
       selector: (row) => row.nomor_antrian,
       sortable: true,
-      minWidth: '200px',
+      minWidth: '150px',
+
     },
     {
       id: 'nama_tahap_pelayanan',
@@ -142,7 +143,7 @@ function DetailAntrian() {
       selector: (row) => row.email,
       sortable: true,
       omit: true,
-      minWidth: '200px',
+      minWidth: '150px',
     },
     {
       id: 'poli_tujuan',

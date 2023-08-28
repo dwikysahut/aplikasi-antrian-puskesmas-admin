@@ -42,6 +42,7 @@ const usePraktek = () => {
   const [dataPoli, setDataPoli] = useState([]);
 
   const [isShowFormModal, setIsShowFormModal] = useState(false);
+  const [isShowQRModal, setIsShowQRModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [alertValue, setAlertValue] = useState({ color: '', text: '', isOpen: false });
 
@@ -147,6 +148,7 @@ const usePraktek = () => {
   };
   const onClickDetailShowHandler = useCallback((row) => {
     fillFormField(row);
+    fetchDataPoli(row.id_poli);
     setIsShowDetailModal(!isShowDetailModal);
   }, [formField, isShowDetailModal]);
 
@@ -219,6 +221,9 @@ const usePraktek = () => {
       },
     );
   };
+  const onClickQRModalHandler = () => {
+    setIsShowQRModal(true);
+  };
   const onClickShowFormHandler = () => {
     setIsEdit(true);
     setIsShowDetailModal(!isShowDetailModal);
@@ -271,6 +276,9 @@ const usePraktek = () => {
     isLoading,
     alertValue,
     setAlertValue,
+    onClickQRModalHandler,
+    isShowQRModal,
+    setIsShowQRModal,
 
   };
 };

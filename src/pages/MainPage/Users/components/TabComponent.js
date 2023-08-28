@@ -27,7 +27,7 @@ function TabComponent({
           className={`tab-view__item ${tabValue == 'Verifikasi' && 'active'}`}
           onClick={() => onClickHandler('Verifikasi')}
         >
-          Akun Perlu Verifikasi
+          User Perlu Verifikasi
 
         </li>
       </ul>

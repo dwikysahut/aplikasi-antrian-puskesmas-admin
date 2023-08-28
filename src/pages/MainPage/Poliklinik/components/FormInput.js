@@ -35,7 +35,7 @@ function FormInput({
   console.log(options);
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup>
         <Label for="nama_poli">Nama Poli</Label>
         <Input

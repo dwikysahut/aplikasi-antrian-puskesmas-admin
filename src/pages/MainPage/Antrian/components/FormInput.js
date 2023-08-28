@@ -39,13 +39,13 @@ const optionsStatusKel = statusAnggotaKel.map((item) => ({
 function FormInput({
   onChangeHandler, isValid, error, values, touched, isSubmitting,
   closeModal, isEdit, dataPoli, setFieldValue, dataPraktek, dataPasien, dataKartuKeluarga,
-  dataRak, checkNik,
+  dataRak, checkNik, handleReset,
 }) {
   const optionsNik = dataPasien?.map((item) => ({
     label: item.nik,
     value: item.nik,
   }));
-  const optionsPraktek = dataPraktek?.map((item) => ({
+  const optionsPraktek = dataPraktek?.filter((item) => item.status_operasional == 1).map((item) => ({
     label: item.nama_poli,
     value: item.id_praktek,
   }));
@@ -55,7 +55,7 @@ function FormInput({
   }));
   console.log(values);
   return (
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <Row>
         <Col>
           <FormGroup row>
@@ -65,17 +65,18 @@ function FormInput({
                 id="nik"
                 name="nik"
                 placeholder="NIK"
-                type="number"
-                disabled={!!isEdit}
+                type="text"
+                maxLength={16}
+                // disabled={!!isEdit}
                 value={values.nik}
                 onChange={onChangeHandler('nik')}
                 invalid={error.nik !== undefined}
               />
-              <span style={{ fontSize: '10px' }}>
+              {/* <span style={{ fontSize: '10px' }}>
                 {values.nik?.toString().length > 0 ? values.nik?.toString().length : '0'}
                 {' '}
                 / 16
-              </span>
+              </span> */}
               { error.nik && (<FormDecline text={error.nik} />)}
             </Col>
             <Col sm={4}>
@@ -83,7 +84,11 @@ function FormInput({
                 color="dark"
                 className="w-100"
             // disabled={values.nik?.toString().length !== 16}
-                onClick={() => checkNik(values.nik)}
+                onClick={() => {
+                  // handleReset();
+
+                  checkNik(values.nik);
+                }}
               >
                 Cek
 
@@ -154,7 +159,8 @@ function FormInput({
               name="nomor_kartu_bpjs"
               placeholder="No. Kartu BPJS"
               type="number"
-              disabled={values.bpjs === '0' || values.bpjs === undefined || values.bpjs === 0}
+
+              disabled={values.bpjs === '0' || values.bpjs === undefined || values.bpjs === 0 || values.bpjs === ''}
               value={values.nomor_kartu_bpjs}
               onChange={onChangeHandler('nomor_kartu_bpjs')}
               invalid={error.nomor_kartu_bpjs !== undefined}
@@ -229,7 +235,8 @@ function FormInput({
               id="no_rm"
               name="no_rm"
               placeholder="No. Rekam Medis"
-              type="number"
+              type="text"
+
               disabled={dataKartuKeluarga.filter((item) => item.no_kk == values.no_kk)[0] && dataKartuKeluarga.filter((item) => item.no_kk == values.no_kk)[0]?.no_rm !== null}
               value={values.no_rm == null ? '' : values.no_rm}
               onChange={onChangeHandler('no_rm')}
@@ -518,7 +525,7 @@ function FormInput({
                 Belum Dipilih
               </option>
 
-              {dataPraktek?.length > 0 ? dataPraktek?.map((item) => (
+              {dataPraktek?.length > 0 ? dataPraktek?.filter((item) => item.status_operasional == 1).map((item) => (
                 <option key={item.id_praktek} value={item.id_praktek}>
                   {`${item.kode_poli}-${item.nama_poli}`}
                 </option>
@@ -531,7 +538,7 @@ function FormInput({
 
             </Input>
 
-            { error.id_poli && (<FormDecline text={error.id_poli} />)}
+            { error.id_praktek && (<FormDecline text={error.id_praktek} />)}
           </FormGroup>
           <FormGroup>
             <Label for="daftar_dengan_bpjs">Daftar Menggunakan BPJS</Label>
@@ -540,8 +547,10 @@ function FormInput({
               name="daftar_dengan_bpjs"
               placeholder="Pilih"
               type="select"
-              defaultValue={values.daftar_dengan_bpjs}
-              value={values.daftar_dengan_bpjs}
+              // disabled={values?.bpjs == 0}
+              defaultValue={values?.bpjs == 0 ? '0' : values?.daftar_dengan_bpjs}
+              value={values?.bpjs == 0 ? '0' : values?.daftar_dengan_bpjs}
+
               onChange={onChangeHandler('daftar_dengan_bpjs')}
               invalid={error.daftar_dengan_bpjs !== undefined}
             >
@@ -581,7 +590,10 @@ function FormInput({
               placeholder="Tanggal Periksa"
               type="date"
               value={values.tanggal_periksa ? values.tanggal_periksa.split('/').reverse().join('-') : values.tanggal_periksa}
-              onChange={(e) => setFieldValue('tanggal_periksa', e.target.value.split('-').reverse().join('/'))}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setFieldValue('tanggal_periksa', e.target.value.split('-').reverse().join('/'));
+              }}
               // onChange={(e) => setFieldValue('tanggal_periksa')}
               invalid={error.tanggal_periksa !== undefined}
             />
@@ -627,7 +639,7 @@ function FormInput({
               onChange={onChangeHandler('keluhan')}
               invalid={error.keluhan !== undefined}
             />
-            { error.keluhan && (<FormDecline text={error.prioritas} />)}
+            { error.keluhan && (<FormDecline text={error.keluhan} />)}
           </FormGroup>
 
         </Col>

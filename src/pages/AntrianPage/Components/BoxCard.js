@@ -9,10 +9,14 @@ function BoxCard({ namaPoli, total, dataAntrian }) {
     //   elements.push(<Card dataAntrian={dataAntrian} />);
     //   console.log('ada');
     // }
-    // console.log(elements);
-    dataAntrian.filter((item) => item.status_antrian == 5).map((item) => (
-      <Card dataAntrian={dataAntrian} />
-    ));
+    return (
+      dataAntrian.filter((item) => item.status_antrian == 5).length > 0
+        ? dataAntrian.filter((item) => item.status_antrian == 5).map((item) => (
+          <Card dataAntrian={item} />
+        ))
+        : <h1>-</h1>
+
+    );
   };
   return (
     <div className="wrapper-box">

@@ -51,11 +51,13 @@ const adminPath = [
 ];
 const petugasPath = [
   { id: 1, name: 'dashboard', element: <Dashboard /> },
-  { id: 2, name: 'antrian', element: '' },
-
+  { id: 2, name: '', element: <Dashboard /> },
+  { id: 3, name: 'antrian', element: <Antrian /> },
+  { id: 4, name: 'detail-antrian', element: <DetailAntrian /> },
 ];
 function AppRoutes() {
   const dataUser = useSelector(({ reducerUser }) => reducerUser.data);
+  console.log(dataUser);
   return (
 
     <Routes>

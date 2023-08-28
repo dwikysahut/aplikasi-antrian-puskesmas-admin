@@ -54,6 +54,7 @@ const errorFetch = async (error, navigate, setAlertValue, logout = null, refresh
       }, 2000);
       // navigate('/login');
     } else if (error.response.data.message === errorType.TOKEN_EXPIRED) {
+      console.log('authrefresh');
       setAlertValue({ isOpen: true, color: 'danger', text: 'Token Expired' });
       setTimeout(async () => {
         setAlertValue({ isOpen: false, color: 'danger', text: 'Token Expired' });
@@ -76,6 +77,7 @@ const errorFetch = async (error, navigate, setAlertValue, logout = null, refresh
       setAlertValue({ isOpen: false, color: 'danger', text: 'Network Error' });
     }, 3000);
   } else {
+    console.log('unhandled');
     setAlertValue({ isOpen: true, color: 'danger', text: error.message });
     setTimeout(() => {
       setAlertValue({ isOpen: false, color: 'danger', text: error.message });

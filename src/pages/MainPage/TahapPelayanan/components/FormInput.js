@@ -15,7 +15,7 @@ function FormInput({
 }) {
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       {/* <FormGroup>
         <Label for="ID Tahap Pelayanan">ID Tahap Pelayanan</Label>
         <Input

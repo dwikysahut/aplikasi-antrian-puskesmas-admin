@@ -27,6 +27,7 @@ function FormInput({
   onChangeHandler, isValid, error, values, touched, isSubmitting,
   closeModal, isEdit, dataRak, dataKartuKeluarga, setFieldValue,
 }) {
+  console.log(values);
   const options = dataKartuKeluarga.map((item) => ({
     label: item.no_kk,
     value: item.no_kk,
@@ -34,7 +35,7 @@ function FormInput({
 
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup>
         <Label for="role">Role</Label>
         <Input
@@ -68,8 +69,9 @@ function FormInput({
           id="user_id"
           name="user_id"
           placeholder="User ID"
-          type="number"
+          type="text"
           disabled={!!isEdit}
+          maxLength={16}
           value={values.user_id}
           onChange={onChangeHandler('user_id')}
           invalid={error.user_id !== undefined}
@@ -209,12 +211,19 @@ function FormInput({
           id="no_telepon"
           name="no_telepon"
           placeholder="No. Telepon"
-          type="number"
+          type="tel"
           // disabled={!!isEdit}
+          maxLength={13}
           value={values.no_telepon}
           onChange={onChangeHandler('no_telepon')}
           invalid={error.no_telepon !== undefined}
         />
+        <span style={{ fontSize: '10px' }}>
+          {values.no_telepon?.toString().length > 0 ? values.no_telepon?.toString().length : '0'}
+          {' '}
+          {' '}
+          digit
+        </span>
         { error.no_telepon && (<FormDecline text={error.no_telepon} />)}
       </FormGroup>
       <FormGroup>
@@ -253,6 +262,34 @@ function FormInput({
         />
         { error.tanggal_lahir && (<FormDecline text={error.tanggal_lahir} />)}
       </FormGroup>
+      {isEdit
+         && (
+         <FormGroup>
+           <Label for="is_suspend">Suspend Akun</Label>
+           <Input
+             id="is_suspend"
+             name="is_suspend"
+             placeholder="Suspend Akun"
+             type="select"
+             defaultValue={0}
+             value={values.is_suspend}
+             onChange={onChangeHandler('is_suspend')}
+             invalid={error.is_suspend !== undefined}
+           >
+             <option value="" hidden>
+               Belum Dipilih
+             </option>
+             <option value="1">
+               Ya
+             </option>
+             <option value="0">
+               Tidak
+             </option>
+           </Input>
+           {/* { error.is_suspend && (<FormDecline text={error.is_suspend} />)} */}
+         </FormGroup>
+         )}
+
     </Form>
 
   );

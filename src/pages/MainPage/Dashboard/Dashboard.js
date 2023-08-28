@@ -11,6 +11,7 @@ import CustomAlert from '../../../components/Alert';
 import { logoutUserActionCreator, refreshTokenActionCreator } from '../../../redux/actions/userAction';
 import { errorFetch } from '../../../utils/functionHelper';
 import { errorType, URL_BASE } from '../../../utils/CONSTANT';
+import socketInstance from '../../../utils/SocketIoConfig';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -54,8 +55,9 @@ function Dashboard() {
       //     }, 2000);
       //   }
       // }
+      console.log(error);
 
-      errorFetch(error.response.data, navigate, setAlertValue, logout, authRefreshToken);
+      errorFetch(error, navigate, setAlertValue, logout, authRefreshToken);
     } finally {
 
     }
@@ -68,17 +70,18 @@ function Dashboard() {
         setDataAntrian(response.data.data);
       }
     } catch (error) {
-      errorFetch(error.response.data, navigate, setAlertValue, logout, authRefreshToken);
+      errorFetch(error, navigate, setAlertValue, logout, authRefreshToken);
     } finally {
 
     }
   }, [dataAntrian]);
 
-  useEffect(() => {
-    if (stateUser.isRejectedRefreshToken) {
-      logout();
-    }
-  }, [stateUser.isRejectedRefreshToken]);
+  // useEffect(() => {
+  //   if (stateUser.isRejectedRefreshToken) {
+  //     console.log('reject');
+  //     logout();
+  //   }
+  // }, [stateUser.isRejectedRefreshToken]);
 
   useEffect(() => {
     if (stateUser.isRejectedRefreshToken) {
@@ -87,28 +90,27 @@ function Dashboard() {
   }, [stateUser.isRejectedRefreshToken]);
 
   useEffect(() => {
-    const socket = io(URL_BASE);
+    // const socket = io(URL_BASE);
+
     fetchAllDataCount();
     fetchAntrianByMonth();
 
-    socket.on('connect', () => {
-      console.log(socket.id);
+    socketInstance().on('connect', () => {
+      console.log(socketInstance().id);
       setIsConnected(true);
     });
 
-    socket.on('disconnect', () => {
+    socketInstance().on('disconnect', () => {
       setIsConnected(false);
     });
 
-    socket.on('server-addAntrian', () => {
+    socketInstance().on('server-addAntrian', () => {
       fetchAllDataCount();
       fetchAntrianByMonth();
     });
 
     return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.off('server-addAntrian');
+      socketInstance().off('server-addAntrian');
     };
   }, []);
 

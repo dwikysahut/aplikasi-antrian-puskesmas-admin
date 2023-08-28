@@ -15,7 +15,7 @@ function FormInput({
 }) {
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup>
         <Label for="No. Kartu Keluarga">No. Kartu Keluarga</Label>
         <Input

@@ -60,7 +60,7 @@ const useInformasi = () => {
       .required('Judul Informasi harus diisi'),
     isi_informasi: yup.string()
       // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
-      .required('No. Kartu Keluarga harus diisi'),
+      .required('Isi Text Informasi harus diisi'),
 
     gambar: !isEdit ? yup.mixed()
       .nullable()

@@ -64,5 +64,15 @@
    
 .container-menu__wrapper {
    flex-direction: column;
+  
+   gap:20px;
+}
+.container-menu{
+    height: auto;
+    overflow-y: scroll;
+}
+.container-page{
+    height: auto;
+    overflow-y: scroll;
 }
   }

@@ -16,9 +16,9 @@ function ButtonColumn({
           className="btn-action w-100"
           color="warning"
           size="sm"
-          onClick={() => {
+          onClick={async () => {
             setIsShow(!isShow);
-            onUpdateStatusAntrianHandler(false, row.id_antrian, row.status_antrian + 1, (item) => {
+            await onUpdateStatusAntrianHandler(false, row.id_antrian, row.status_antrian + 1, (item) => {
               onClickEditHandler(item);
             });
           }}
@@ -37,6 +37,7 @@ function ButtonColumn({
             size="sm"
             onClick={() => {
               setIsShow(!isShow);
+
               onClickEditHandler(row);
             }}
             id={row.ID}

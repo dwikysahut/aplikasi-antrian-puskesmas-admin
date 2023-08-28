@@ -45,11 +45,15 @@ const useKartuKeluarga = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
   const formValidationSchema = yup.object().shape({
-    no_kk: yup.number().required('No. KK harus diisi')
+    no_kk: yup.string().required('No. KK harus diisi')
+      .matches(/^[0-9]+$/, 'Must be only digits')
       .test('len', 'No. KK tediri dari 16 angka', (val) => val?.toString().length >= 16)
-      .positive()
+      // .positive()
+      .nullable(true)
       .typeError('No. KK harus berisikan angka'),
-    no_rm: yup.string().required('No. Rekam Medis harus diisi'),
+    no_rm: yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits').required('No. Rekam Medis harus diisi')
+      .nullable(true),
     // no_rm: yup.number()
 
     //   .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)

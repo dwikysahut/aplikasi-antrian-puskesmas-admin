@@ -57,22 +57,28 @@ const useUsers = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
   const formValidationSchema = yup.object().shape({
-    user_id: yup.number()
+    user_id: yup.string()
+      .matches(/^[0-9]+$/, 'User ID terdiri dari angka')
       .test('len', 'User ID/NIK terdiri dari 16 angka', (val) => val?.toString().length === 16)
       .required('User ID harus diisi')
-      .typeError('No. Rekam Medis terdiri dari angka'),
+      .typeError('User ID terdiri dari angka'),
 
     nama_user: yup.string()
       .required('Nama User harus diisi'),
-    no_telepon: yup.number()
+    no_telepon: yup.string()
+      .matches(/^[0-9]+$/, 'No. Telepon terdiri dari angka')
       .test('len', 'No. Telepon terdiri dari 10 - 13 angka', (val) => val?.toString().length >= 10 && val?.toString().length <= 13)
-      .required('No. Kartu Keluarga harus diisi'),
+      .required('No. Telepon harus diisi')
+      .typeError('No. Telepon terdiri dari angka'),
+
     role: yup.string()
       .required('Role harus dipilih'),
-    no_kk: yup.number()
+    no_kk: yup.string()
+      .matches(/^[0-9]+$/, 'Nomor KK terdiri dari angka')
+
       .when('role', {
         is: (role) => role && parseInt(role, 10) == 3,
-        then: yup.number().test('len', 'No. KK terdiri dari 16 angka', (val) => val?.toString().length === 16)
+        then: yup.string().test('len', 'No. KK terdiri dari 16 angka', (val) => val?.toString().length === 16)
           .required('No. Kartu Keluarga harus diisi'),
       }),
 
@@ -81,7 +87,7 @@ const useUsers = () => {
       then: yup.string().required('Nama Kepala Keluarga harus diisi'),
     }),
 
-    email: yup.string()
+    email: yup.string().email('Masukkan email yang valid')
       .required('Email harus diisi'),
     verif_email: yup.string()
       .required('Verifikasi Email harus dipilih'),
@@ -144,7 +150,7 @@ const useUsers = () => {
     }
   };
   const fillFormField = (row) => {
-    console.log(row.verifikasi_email);
+    console.log(row);
     row.verifikasi_email_pengguna = parseInt(row.verif_email, 10) === 1 ? 'Sudah' : 'Belum';
     row.verifikasi_akun_pengguna = parseInt(row.verif_akun, 10) === 1 ? 'Sudah' : 'Belum';
     row.role_akun = row.role === 1 ? 'Administrator' : (row.role === 2 ? 'Petugas' : 'Pasien');

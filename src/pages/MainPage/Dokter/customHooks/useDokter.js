@@ -60,7 +60,7 @@ const useDokter = () => {
       .required('No telepon harus diisi')
       .typeError('Nomor Telepon terdiri dari angka'),
     alamat: yup.string().required('Alamat harus diisi'),
-    jenis_kelamin: yup.string().required('Jenis Kelamin harus diisi'),
+    jenis_kelamin: yup.string().required('Jenis Kelamin belum dipilih'),
 
   });
   const logout = async (refreshToken = stateUser.data.refreshToken) => {

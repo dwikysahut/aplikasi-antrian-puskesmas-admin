@@ -680,8 +680,8 @@ const statusAntrian = [
   'Terdaftar',
   'Diproses',
   'Menunggu pembayaran',
-  'Menunggu pelayanan',
-  'Sedang dilayani',
+  'Menunggu pelayanan poli',
+  'Sedang dilayani dalam poli',
   'Selesai',
   'Batal',
 ];

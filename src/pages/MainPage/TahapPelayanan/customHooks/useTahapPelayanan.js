@@ -45,11 +45,6 @@ const useTahapPelayanan = () => {
 
   const formValidationSchema = yup.object().shape({
     nama_tahap_pelayanan: yup.string().required('Nama Tahap pelayanan harus Diisi'),
-    // no_rm: yup.number()
-
-    //   .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
-    //   .required('No telepon harus diisi')
-    //   .typeError('Nomor Telepon terdiri dari angka'),
 
   });
   const logout = async (refreshToken = stateUser.data.refreshToken) => {

@@ -40,6 +40,9 @@ function Filter({
           <option value="" hidden>
             Belum Dipilih
           </option>
+          <option value="">
+            Semua
+          </option>
           {dataPraktek
             .sort((a, b) => a.kode_poli.toLowerCase().localeCompare(b.kode_poli.toLowerCase()))
             .map((item) => (
@@ -59,7 +62,7 @@ function Filter({
         }}
       >
 
-        <Button onClick={onResetHandler} className="btn-warning" disabled={value.id_praktek == '' || value.tanggal_periksa == ''}>
+        <Button onClick={onResetHandler} className="btn-warning" disabled={value.id_praktek == '' && value.tanggal_periksa == ''}>
           Reset
         </Button>
         <Button onClick={onSubmitFilter} disabled={value.id_praktek == '' && value.tanggal_periksa == ''}>

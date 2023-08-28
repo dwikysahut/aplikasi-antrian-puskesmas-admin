@@ -51,11 +51,15 @@ const useRekamMedis = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
   const formValidationSchema = yup.object().shape({
-    no_rm: yup.number()
+    no_rm: yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits')
       // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
       .required('No. Rekam Medis harus diisi')
+      .nullable(true)
       .typeError('No. Rekam Medis terdiri dari angka'),
-    no_kk: yup.number()
+    no_kk: yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .nullable(true)
       // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
       .required('No. Kartu Keluarga harus diisi'),
 

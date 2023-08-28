@@ -10,6 +10,10 @@ import {
 import { Col, Row } from 'reactstrap';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
+import { useSpeechSynthesis } from 'react-speech-kit';
+import { io } from 'socket.io-client';
+import socketInstance from '../../utils/SocketIoConfig';
+
 import Sidebar from './components/Sidebar';
 
 import './styles/MainPage.css';
@@ -19,9 +23,11 @@ import Dokter from './Dokter/Dokter';
 import Poliklinik from './Poliklinik/Poliklinik';
 import Dashboard from './Dashboard/Dashboard';
 import NotFound from '../NotFound/NotFound';
-import { errorType } from '../../utils/CONSTANT';
+import { URL_BASE, errorType } from '../../utils/CONSTANT';
 import { logoutUserActionCreator } from '../../redux/actions/userAction';
 import { swalConfirmation } from '../../utils/functionHelper';
+import { publishNotifikasi } from '../../utils/http';
+import { speechText } from '../../utils/DATA';
 
 // import LoginForm from './components/LoginForm';
 
@@ -31,7 +37,9 @@ function MainPage(props) {
   const [routeName, setRouteName] = useState(null);
 
   const [isShowDropDown, setShowDropdown] = useState(false);
+  const [isCalling, setIsCalling] = useState(null);
   const dropdownRef = useRef();
+  const { speak, voices, rate } = useSpeechSynthesis();
 
   // const stateUser = useSelector(({ reducerUser }) => reducerUser);
   // const dispatch = useDispatch();
@@ -53,6 +61,65 @@ function MainPage(props) {
     setRouteName(recentPath[1]);
   }, [location]);
 
+  const panggilHandler = async (type, data, offline = false) => {
+    try {
+      const setDataPublish = {
+        title: '',
+        body: '',
+        user_id: data.user_id,
+      };
+
+      let sentences = `${speechText.opening} ${data.nomor_antrian.split('-')[0]}, ${data.nomor_antrian.split('-')[1]}. ${speechText.verb}`;
+      if (type == 'poli') {
+        setDataPublish.title = 'Panggilan menuju Poli';
+        setDataPublish.body = `Nomor Antrian ${data.nomor_antrian} milik anda telah dipanggil, silahkan menuju poli`;
+        sentences += speechText.poli;
+      } else {
+        setDataPublish.title = 'Panggilan menuju Loket Pendaftaran';
+        setDataPublish.body = `Nomor Antrian ${data.nomor_antrian} milik anda telah dipanggil, silahkan menuju loket pendaftaran`;
+
+        sentences += speechText.loket;
+      }
+      if (!offline) {
+        const response = await publishNotifikasi(setDataPublish, props.dataUser.token);
+        if (response.status == 201) {
+          console.log('berhasil');
+        }
+      }
+      // memanggil
+      speak({
+        text: sentences,
+        voice: voices[56],
+        rate: 0.8,
+        pitch: 1.1,
+      });
+      setIsCalling(null);
+    } catch (error) {
+      console.log(error);
+      setIsCalling(null);
+    }
+  };
+  useEffect(() => {
+    // const socket = io(URL_BASE);
+    socketInstance().emit('user-connected', props.dataUser.user_id, '', 'web');
+    console.log('ada');
+    socketInstance().on('server-publishNotification', async (type, data) => {
+      // console.log(data);
+      // await panggilHandler(type, data);
+      setIsCalling({ data, type, offline: false });
+    });
+    socketInstance().on('server-publishNotificationOffline', async (type, data) => {
+      // console.log('ini panggil');
+      // console.log(data);
+      // await panggilHandler(type, data, true);
+      setIsCalling({ data, type, offline: true });
+    });
+  }, []);
+  useEffect(() => {
+    if (isCalling !== null) {
+      panggilHandler(isCalling.type, isCalling.data, isCalling.offline);
+    }
+  }, [isCalling]);
   const dropDownShowHandler = () => {
     setShowDropdown(!isShowDropDown);
   };
@@ -102,7 +169,7 @@ function MainPage(props) {
 
       <div style={{ display: 'flex' }}>
         <Col xs="2" className="sidebar-menu">
-          <Sidebar selected={routeName} />
+          <Sidebar selected={routeName} role={props.dataUser.role} />
         </Col>
         <Col xs="10" className="content-wrapper">
           <AdminHeader dropDownShowHandler={dropDownShowHandler} />

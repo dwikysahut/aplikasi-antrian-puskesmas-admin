@@ -6,7 +6,7 @@ import { URL_BASE } from './CONSTANT';
 
 const options = (token) => ({
   headers: { Authorization: `Bearer ${token}` },
-  timeout: 3000,
+  timeout: 15000,
 });
 
 // auth
@@ -64,11 +64,12 @@ export const putPoli = (id, body, token) => Axios.put(`${URL_BASE}/poli/${id}`, 
 export const deletePoli = (id, token) => Axios.delete(`${URL_BASE}/poli/${id}`, options(token));
 
 // Notifikasi
-export const getAllNotifikasi = () => Axios.get(`${URL_BASE}/notifikasi`);
-export const getNotifikasiById = (id) => Axios.get(`${URL_BASE}/notifikasi/${id}`);
-export const postNotifikasi = (body) => Axios.post(`${URL_BASE}/notifikasi`, body);
-export const putNotifikasi = (id, body) => Axios.put(`${URL_BASE}/notifikasi/${id}`, body);
-export const deleteNotifikasi = (id) => Axios.delete(`${URL_BASE}/notifikasi/${id}`);
+export const getAllNotifikasi = (token) => Axios.get(`${URL_BASE}/notifikasi`, options(token));
+export const getNotifikasiById = (id, token) => Axios.get(`${URL_BASE}/notifikasi/${id}`, options(token));
+export const postNotifikasi = (body, token) => Axios.post(`${URL_BASE}/notifikasi`, body, options(token));
+export const publishNotifikasi = (body, token) => Axios.post(`${URL_BASE}/notifikasi/publish-notifikasi`, body, options(token));
+export const putNotifikasi = (id, body, token) => Axios.put(`${URL_BASE}/notifikasi/${id}`, body, options(token));
+export const deleteNotifikasi = (id, token) => Axios.delete(`${URL_BASE}/notifikasi/${id}`, options(token));
 
 // Pasien
 export const getAllPasien = (token) => Axios.get(`${URL_BASE}/pasien`, options(token));

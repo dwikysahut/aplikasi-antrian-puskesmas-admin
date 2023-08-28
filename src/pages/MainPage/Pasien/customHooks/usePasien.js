@@ -73,11 +73,14 @@ const usePasien = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
 
   const formValidationSchema = yup.object().shape({
-    nik: yup.number()
+    nik: yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .test('len', 'No. KK tediri dari 16 angka', (val) => val?.toString().length >= 16)
       .test('len', 'NIK terdiri dari 16 angka', (val) => val?.toString().length === 16)
       .required('NIK harus diisi')
       .typeError('NIK terdiri dari angka'),
-    no_kk: yup.number()
+    no_kk: yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits')
       .test('len', 'No. KK terdiri dari 16 angka', (val) => val?.toString().length === 16)
       .required('No. KK harus diisi')
       .typeError('No. KK terdiri dari angka'),
@@ -104,7 +107,8 @@ const usePasien = () => {
       .required('Kelurahan harus diisi'),
     kecamatan: yup.string()
       .required('Kecamatan harus diisi'),
-    no_telepon: yup.number()
+    no_telepon: yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits')
       .test('len', 'No. Telp terdiri dari 10-13 angka', (val) => val?.toString().length >= 10 && val?.toString().length <= 13)
       .required('No. Telp harus diisi')
       .typeError('No. Telp terdiri dari angka'),
@@ -152,6 +156,7 @@ const usePasien = () => {
       const response = await getAllPasien(stateUser.data.token);
 
       if (response.status === 200) {
+        console.log(response);
         setDataPasien(response.data.data);
 
         setIsLoading(false);

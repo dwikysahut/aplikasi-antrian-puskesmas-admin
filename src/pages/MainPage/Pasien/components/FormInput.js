@@ -46,7 +46,7 @@ function FormInput({
 
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup row>
         <Label for="nik">NIK</Label>
         <Col sm={8}>

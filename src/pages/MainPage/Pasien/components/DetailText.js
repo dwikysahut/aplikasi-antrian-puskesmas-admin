@@ -10,6 +10,7 @@ import {
 
 function DetailText({
   isShow, onToggleHandler, onClickEditHandler, data,
+  onClickImage,
 }) {
   const renderText = (key, value) => (
 
@@ -22,7 +23,7 @@ function DetailText({
 
       <p className="inner-wrapper__colon">:</p>
       {key === 'url_foto_kartu_identitas'
-        ? <img className="inner-wrapper__value" style={{ width: '100%', maxHeight: '150px' }} alt="kartu-identitas" src={value} />
+        ? <img className="inner-wrapper__value" style={{ width: '100%', maxHeight: '150px' }} onClick={() => onClickImage(data)} alt="kartu-identitas" src={value} />
         : (
           <p className="inner-wrapper__value">{value}</p>
         )}

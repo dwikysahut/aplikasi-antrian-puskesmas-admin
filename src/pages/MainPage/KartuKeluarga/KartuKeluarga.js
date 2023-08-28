@@ -68,7 +68,7 @@ function KartuKeluarga() {
       name: 'No.',
       selector: (row, index) => index + 1,
       sortable: true,
-      Width: '50px',
+      width: '80px',
     },
     {
       id: 'no_kk',

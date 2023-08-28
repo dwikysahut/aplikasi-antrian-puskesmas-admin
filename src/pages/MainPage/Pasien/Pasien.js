@@ -78,21 +78,21 @@ function Pasien() {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '100px',
+      width: '80px',
     },
     {
       id: 'nik',
       name: 'NIK',
       selector: (row) => row.nik,
       sortable: true,
-      minWidth: '200px',
+      minWidth: '180px',
     },
     {
       id: 'no_kk',
       name: 'No. Kartu Keluarga',
       selector: (row) => row.no_kk,
       sortable: true,
-      minWidth: '200px',
+      minWidth: '180px',
     },
     {
       id: 'nama',
@@ -113,6 +113,7 @@ function Pasien() {
       name: 'Jenis Kelamin',
       selector: (row) => row.jenis_kelamin,
       sortable: true,
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -120,6 +121,8 @@ function Pasien() {
       name: 'No. Telepon',
       selector: (row) => row.no_telepon,
       sortable: true,
+      omit: true,
+
       minWidth: '200px',
     },
     {
@@ -127,6 +130,7 @@ function Pasien() {
       name: 'BPJS',
       selector: (row) => (row.bpjs === 1 ? 'Ya' : 'Tidak'),
       sortable: true,
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -134,12 +138,14 @@ function Pasien() {
       name: 'No. BPJS',
       selector: (row) => row.nomor_kartu_bpjs,
       sortable: true,
+      omit: true,
       minWidth: '200px',
     },
     {
       id: 'url_foto_kartu_identitas',
       name: 'Kartu Identitas',
       cell: (row) => renderImage(row),
+      omit: true,
 
       minWidth: '200px',
     },
@@ -149,7 +155,7 @@ function Pasien() {
       name: 'Created At',
       selector: (row) => dateConvert(row.created_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
     {
@@ -157,7 +163,7 @@ function Pasien() {
       name: 'Updated At',
       selector: (row) => dateConvert(row.updated_at),
       sortable: true,
-
+      omit: true,
       minWidth: '200px',
     },
 
@@ -206,6 +212,8 @@ function Pasien() {
       isShow={isShowDetailModal}
       onClickEditHandler={onClickShowFormHandler}
       setIsShow={setIsShowDetailModal}
+      onClickImage={onClickImageShowHandler}
+      alt={`kartu-identitas-${formField.nik}`}
       data={formField}
       title="Informasi Pasien"
       onToggleHandler={onCloseDetailModal}

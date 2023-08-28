@@ -17,7 +17,7 @@ function TabComponent({
   return (
     <div className="d-flex mt-5">
       <ul className="tab-view">
-        <li className={`tab-view__item ${tabValue == 'List' && 'active'}`} onClick={() => onClickHandler('List')}>List Antrian Berjalan</li>
+        <li className={`tab-view__item ${tabValue == 'List' && 'active'}`} onClick={() => onClickHandler('List')}>List Antrian Aktif</li>
         <li
           style={{
             border: '1px solid black', padding: 0, height: '100%', flex: 'auto',

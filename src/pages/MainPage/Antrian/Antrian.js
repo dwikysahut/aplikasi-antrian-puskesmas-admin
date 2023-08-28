@@ -1,3 +1,5 @@
+/* eslint-disable no-tabs */
+/* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 /* eslint-disable no-use-before-define */
@@ -6,12 +8,12 @@
 import React, {
   useEffect, useState, useCallback, useMemo,
 } from 'react';
-import { io } from 'socket.io-client';
+
 import DataTable from 'react-data-table-component';
 import { Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { confirmationMessage, successfullyMessage } from '../../../utils/CONSTANT';
+import { confirmationMessage, poliColor, successfullyMessage } from '../../../utils/CONSTANT';
 import {
   dateConvert, dateOnlyConvert, swalCallback, swalConfirmation,
 } from '../../../utils/functionHelper';
@@ -28,6 +30,7 @@ import { datatableStyle } from '../../../utils/customStyles';
 import Filter from './components/Filter';
 import ButtonColumn from './components/ButtonColumn';
 import TabComponent from './components/TabComponent';
+import BoxItem from './components/BoxItem';
 
 function Antrian() {
   const navigate = useNavigate();
@@ -49,6 +52,7 @@ function Antrian() {
     onClickShowFormHandler,
     dataFiltered,
     dataPasien,
+
     dataKartuKeluarga,
     dataPraktek,
     dataRak,
@@ -61,6 +65,7 @@ function Antrian() {
     formField,
     isLoading,
     alertValue,
+    isFilterSubmitClicked,
 
     stateFilter,
     onFilterChangeHandler,
@@ -76,6 +81,7 @@ function Antrian() {
     tabValue,
     onClickTabHandler,
     panggilHandler,
+    isFirstRender,
   } = useAntrian();
   // const renderButtonProccesAntrian = (row) => {
   //   if (row.status_antrian == 1) {
@@ -147,12 +153,17 @@ function Antrian() {
     </div>
   );
 
+  const renderPoli = (row) => (
+
+    <Button color="secondary" style={{ background: `${poliColor[row.id_praktek]}`, width: '200px' }} size="sm" disabled id={row.ID}>{row.poli_tujuan}</Button>
+
+  );
   const columns = [
     {
       id: 'no',
       name: 'No.',
       selector: (row, index) => index + 1,
-      minWidth: '50px',
+      width: '60px',
     },
     {
       id: 'id_antrian',
@@ -173,39 +184,41 @@ function Antrian() {
     {
       id: 'poli_tujuan',
       name: 'Poli Tujuan',
-      selector: (row) => row.poli_tujuan,
+      cell: (row) => renderPoli(row),
       sortable: true,
-      minWidth: '200px',
+      width: '150px',
     },
     {
       id: 'tanggal_periksa',
-      name: 'Tanggal Kunjungan',
+      name: 'Tgl Kunjungan',
       selector: (row) => dateOnlyConvert(row.tanggal_periksa),
 
       sortable: true,
-      minWidth: '200px',
+      minWidth: '150px',
+
     },
     {
       id: 'urutan',
-      name: 'No. Urut',
+      name: 'Urutan',
       selector: (row) => row.urutan,
 
       sortable: true,
-      minWidth: '200px',
+      width: '90px',
     },
     {
       id: 'nomor_antrian',
-      name: 'Nomor Antrian',
+      name: 'No. Antrian',
       selector: (row) => row.nomor_antrian,
       sortable: true,
 
-      minWidth: '150px',
+      width: '120px',
     },
     {
       id: 'nik',
       name: 'NIK Pasien',
       selector: (row) => row.nik,
       sortable: true,
+      omit: true,
 
       minWidth: '200px',
     },
@@ -214,6 +227,7 @@ function Antrian() {
       name: 'Nama Pasien',
       selector: (row) => row.email,
       sortable: true,
+      omit: true,
 
       minWidth: '200px',
     },
@@ -222,6 +236,7 @@ function Antrian() {
       name: 'ID Akun',
       selector: (row) => row.user_id,
       sortable: true,
+      omit: true,
 
       minWidth: '100px',
     },
@@ -229,10 +244,19 @@ function Antrian() {
     {
       id: 'prioritas',
       name: 'Prioritas',
-      selector: (row) => row.prioritas,
+      selector: (row) => (row.prioritas == 0 ? 'Biasa' : 'Prioritas'),
 
       sortable: true,
-      minWidth: '120px',
+      width: '100px',
+    },
+    {
+      name: 'Opsi',
+      cell: (row) => renderActionButton(row),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      minWidth: '200px',
+
     },
     {
       id: 'no_kk',
@@ -240,6 +264,8 @@ function Antrian() {
       selector: (row) => row.no_kk,
       sortable: true,
       minWidth: '200px',
+      omit: true,
+
     },
     {
       id: 'status_antrian',
@@ -253,7 +279,7 @@ function Antrian() {
       name: 'Status Kehadiran',
       cell: (row) => renderStatusKehadiran(row.status_hadir),
       sortable: true,
-      minWidth: '200px',
+      minWidth: '150px',
     },
 
     {
@@ -274,21 +300,60 @@ function Antrian() {
       minWidth: '200px',
     },
 
-    {
-      name: 'Opsi',
-      cell: (row) => renderActionButton(row),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-      minWidth: '200px',
-
-    },
   ];
+  // const conditionalRowStylesFunc = useCallback(() => {
+  //   const newArrDataPraktek = dataPraktek;
+  //   const colorArr = [];
+  //   for (let i = 0; i < newArrDataPraktek.length; i++) {
+  //     console.log(newArrDataPraktek[i].nama_poli + poliColor[newArrDataPraktek[i].id_praktek]);
+  //     colorArr.push({
+  //   		when: (row) => row.id_praktek == newArrDataPraktek[i].id_praktek,
+  //         		style: {
+  //         			backgroundColor: poliColor[newArrDataPraktek[i].id_praktek],
+  //         			color: 'white',
+  //         			'&:hover': {
+  //         				cursor: 'pointer',
+  //         			},
+  //         		},
 
+  //   	});
+  //   }
+  //   return colorArr;
+  // }, [dataPraktek]);
+  const conditionalRowStylesFunc = useCallback(() => {
+    const newArrDataPraktek = dataPraktek;
+    const colorArr = [];
+
+    for (let i = 0; i < dataAntrian.length; i++) {
+      // console.log(newArrDataPraktek[i].nama_poli + poliColor[newArrDataPraktek[i].id_praktek]);
+      colorArr.push({
+        when: (row) => row.status_antrian == 4,
+        style: {
+          background: 'lightgreen',
+
+        },
+
+      });
+    }
+    for (let i = 0; i < newArrDataPraktek.length; i++) {
+      // console.log(newArrDataPraktek[i].nama_poli + poliColor[newArrDataPraktek[i].id_praktek]);
+      colorArr.push({
+    		when: (row) => row.id_antrian == dataFiltered.filter((item) => item.id_praktek == newArrDataPraktek[i].id_praktek)[0]?.id_antrian && newArrDataPraktek[i].jumlah_pelayanan > 0,
+          		style: {
+          			background: 'Khaki',
+
+          		},
+
+    	});
+    }
+    return colorArr;
+  }, [dataFiltered, dataPraktek]);
+  const conditionalRowStyles = conditionalRowStylesFunc();
   const subHeaderComponent = useMemo(() => {
     const onClearHandler = () => {
       if (filterText) {
         setFilterText('');
+
         setResetPaginationToggle(!resetPaginationToggle);
       }
     };
@@ -300,7 +365,15 @@ function Antrian() {
       />
     );
   }, [filterText]);
-
+  const dataAntrianSorted = [...dataFiltered].sort((a, b) => {
+    if (a.status_antrian < b.status_antrian) {
+      return -1;
+    }
+    if (b.status_antrian > a.status_antrian) {
+      return 1;
+    }
+    return 0;
+  });
   const modalComponent = useMemo(() => (
     <FormModal
       formValidationSchema={formValidationSchema}
@@ -329,6 +402,9 @@ function Antrian() {
       onToggleHandler={onCloseDetailModal}
     />
   ), [isShowDetailModal]);
+  const renderBoxPoli = useMemo(() => (
+    <BoxItem dataPraktek={dataPraktek} dataAntrian={dataAntrian} />
+  ), [dataPraktek, dataAntrian]);
   const buttonModalComponent = useMemo(() => (
     <ButtonColumn
       isShow={isShowButtonModal}
@@ -353,6 +429,7 @@ function Antrian() {
         onDismiss={() => setAlertValue({ isOpen: false, color: 'danger' })}
       />
 
+      {renderBoxPoli}
       <Filter dataPraktek={dataPraktek} value={stateFilter} onResetHandler={onFilterResetHandler} onChangeHandler={onFilterChangeHandler} onSubmitFilter={onFilterSubmitHandler} />
 
       <TabComponent onClickHandler={onClickTabHandler} tabValue={tabValue} />
@@ -364,14 +441,15 @@ function Antrian() {
 
             <DataTable
               columns={columns}
-              // data={stateFilter.tanggal_periksa !== '' ? dataFiltered : dataFiltered.sort((a, b) => a.status_antrian - b.status_antrian)}
-              data={dataFiltered}
+              data={isFilterSubmitClicked ? dataFiltered.filter((item) => item.status_antrian < 6) : []}
+              // data={dataFiltered}
               subHeader
+              conditionalRowStyles={conditionalRowStyles}
               subHeaderComponent={subHeaderComponent}
               pagination
               customStyles={datatableStyle}
               paginationResetDefaultPage={resetPaginationToggle}
-              progressPending={isLoading}
+              progressPending={isFirstRender && isLoading}
             />
           </div>
 

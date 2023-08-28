@@ -21,10 +21,14 @@
 }
 .nama-poli {
     font-weight: bold;
+    font-size: 3rem;
 }
 .title-wrapper {
     display: flex;
+    flex-direction: column;
     min-height: 70px;
+    gap: 16px;
+    align-items: center;
 }
 .wrapper-box {
     padding: 24px;
@@ -32,6 +36,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-width: 300px;
     border-radius: 5px;
 background-color: white;
     
@@ -48,4 +53,7 @@ background-color: white;
 .wrapper-card {
     border: 1px solid black;
     padding: 8px 16px;
+}
+.wrapper-card h3 {
+    font-size: 2.5rem;
 }

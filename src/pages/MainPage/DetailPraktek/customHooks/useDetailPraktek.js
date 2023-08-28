@@ -25,8 +25,8 @@ const initialState = {
   nama_dokter: '',
   id_poli: '',
   nama_poli: '',
-  hari_praktek: '',
-  jam_praktek: '',
+  // hari_praktek: '',
+  // jam_praktek: '',
   status_operasional: '',
   created_at: '',
   updated_at: '',
@@ -65,18 +65,18 @@ const useDetailPraktek = () => {
     id_dokter: yup.string()
       // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
       .required('Dokter tidak boleh kosong'),
-    hari_praktek: yup.string()
-      // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
-      .required('Hari Praktek tidak boleh kosong'),
+    // hari_praktek: yup.string()
+    //   // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
+    //   .required('Hari Praktek tidak boleh kosong'),
     status_operasional: yup.string()
       // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
       .required('Status Operasional tidak boleh kosong'),
-    waktu_mulai_praktek: yup.string()
-      // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
-      .required('Waktu Mulai Praktek harus diisi'),
-    waktu_selesai_praktek: yup.string()
-      // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
-      .required('Waktu Selesai Praktek harus diisi'),
+    // waktu_mulai_praktek: yup.string()
+    //   // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
+    //   .required('Waktu Mulai Praktek harus diisi'),
+    // waktu_selesai_praktek: yup.string()
+    //   // .test('len', 'No.Telepon terdiri dari 10-13 angka', (val) => val.toString().length <= 13 && val.toString().length >= 10)
+    //   .required('Waktu Selesai Praktek harus diisi'),
   });
   const logout = async (refreshToken = stateUser.data.refreshToken) => {
     await dispatch(logoutUserActionCreator(refreshToken));
@@ -135,8 +135,11 @@ const useDetailPraktek = () => {
       const response = await getAllDokter(stateUser.data.token);
 
       if (response.status === 200) {
+        const { data } = response.data;
+        const dataDokterFilter = data.filter((item) => !dataDetailPraktek.some((itemCompare) => item.id_dokter == itemCompare.id_dokter));
+
         // const filteredResponse = response.data.data.filter((item) => item.no_rm == null);
-        setDataDokter(response.data.data);
+        setDataDokter(dataDokterFilter);
       }
     } catch (error) {
       // console.log(error);
@@ -161,8 +164,8 @@ const useDetailPraktek = () => {
       ...row,
       created_at: dateConvert(row.created_at),
       updated_at: dateConvert(row.updated_at),
-      waktu_mulai_praktek: row.jam_praktek?.split('-')[0].split('.').join(':'),
-      waktu_selesai_praktek: row.jam_praktek?.split('-')[1].split('.').join(':'),
+      // waktu_mulai_praktek: row.jam_praktek?.split('-')[0].split('.').join(':'),
+      // waktu_selesai_praktek: row.jam_praktek?.split('-')[1].split('.').join(':'),
 
     });
   };
@@ -193,7 +196,7 @@ const useDetailPraktek = () => {
     const newFormBody = {
       ...formBody,
       id_praktek: filterDataPraktek,
-      jam_praktek: `${formBody.waktu_mulai_praktek.split(':').join('.')}-${formBody.waktu_selesai_praktek.split(':').join('.')}`,
+      // jam_praktek: `${formBody.waktu_mulai_praktek.split(':').join('.')}-${formBody.waktu_selesai_praktek.split(':').join('.')}`,
     };
     console.log(newFormBody);
     delete newFormBody.created_at;
@@ -224,7 +227,7 @@ const useDetailPraktek = () => {
     const newFormBody = {
       ...formBody,
       id_praktek: filterDataPraktek,
-      jam_praktek: `${formBody.waktu_mulai_praktek.split(':').join('.')}-${formBody.waktu_selesai_praktek.split(':').join('.')}`,
+      // jam_praktek: `${formBody.waktu_mulai_praktek.split(':').join('.')}-${formBody.waktu_selesai_praktek.split(':').join('.')}`,
     };
     delete newFormBody.created_at;
     delete newFormBody.updated_at;
@@ -270,8 +273,8 @@ const useDetailPraktek = () => {
     (item) => {
       if (item.status_operasional && item.status_operasional.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
       if (item.id_praktek && item.id_praktek.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
-      if (item.hari_praktek && item.hari_praktek.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
-      if (item.jam_praktek && item.jam_praktek.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
+      // if (item.hari_praktek && item.hari_praktek.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
+      // if (item.jam_praktek && item.jam_praktek.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
       if (item.nama_dokter && item.nama_dokter.toString().toLowerCase().includes(filterText.toLowerCase())) { return true; }
       if (item.nama_poli && item.nama_poli.toLowerCase().includes(filterText.toLowerCase())) { return true; }
 

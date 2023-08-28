@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import DetailText from './DetailText';
 
 function DetailModalPasien({
+  onClickImage,
   isShow, onToggleHandler, onClickEditHandler,
   data, title,
 }) {
@@ -21,7 +22,7 @@ function DetailModalPasien({
       >
         <ModalHeader toggle={onToggleHandler}>{title}</ModalHeader>
         <ModalBody style={{ height: '70vh', overflowY: 'scroll' }}>
-          <DetailText data={data} />
+          <DetailText data={data} onClickImage={onClickImage} />
         </ModalBody>
         <ModalFooter>
           <Button

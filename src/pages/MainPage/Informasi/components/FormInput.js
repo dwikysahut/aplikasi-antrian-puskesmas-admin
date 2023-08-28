@@ -28,7 +28,7 @@ function FormInput({
 }) {
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup>
         <Label for="judul_informasi">Judul Informasi</Label>
         <Input

@@ -15,7 +15,7 @@ function FormInput({
 }) {
   return (
 
-    <Form>
+    <Form onSubmit={(e) => { e.preventDefault(); }}>
       <FormGroup>
         <Label for="ID Dokter">ID Dokter</Label>
         <Input
@@ -45,7 +45,7 @@ function FormInput({
         { error.nama_dokter && (<FormDecline text={error.nama_dokter} />)}
       </FormGroup>
       <FormGroup>
-        <Label for="no. telepon">Masukkan No. Telepon</Label>
+        <Label for="no. telepon">No. Telepon</Label>
         <Input
           id="no_telepon"
           name="no_telepon"
